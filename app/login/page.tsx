@@ -1,3 +1,5 @@
+'use client'
+
 import { login, signup, signInWithGoogle } from './actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -61,7 +63,7 @@ export default function LoginPage() {
             variant="outline"
             type="submit"
             className="w-full"
-            onClick={signInWithGoogle}
+            onClick={() => signInWithGoogle(window.location.origin)}
           >
             <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
               <path
