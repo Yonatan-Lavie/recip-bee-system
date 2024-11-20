@@ -13,6 +13,26 @@ pnpm dev
 # or
 bun dev
 ```
+## Setup and manage Shadcn UI
+init shadcn
+```bash
+npx shadcn-ui@latest add
+```
+
+## Setup and manage supabase
+
+login to supabase
+```bash
+npx supabase login
+```
+press enter and it will open a browser
+Enter this verification code on Supabase CLI to authorize login
+
+generate supabase database types
+```bash
+npx supabase gen types typescript --project-id yszisefgwedfnsokvjou > types/supabase.ts
+```
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
