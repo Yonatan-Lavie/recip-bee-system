@@ -3,11 +3,11 @@ import { NextResponse, type NextRequest } from 'next/server'
 
 // Route configuration for better management
 const ROUTES = {
-  PUBLIC: ['','/auth/login', '/auth/callback', '/error'],
+  PUBLIC: ['','/login', '/auth/callback', '/auth/confirm', '/error'],
   AUTH_REQUIRED: ['/private'],
   ADMIN_REQUIRED: ['/admin'],
-  DEFAULT_AUTH_ROUTE: '/',
-  DEFAULT_PUBLIC_ROUTE: '/auth/login',
+  DEFAULT_AUTH_ROUTE: '/login',
+  DEFAULT_PUBLIC_ROUTE: '',
   ERROR_ROUTE: '/error',
 } as const
 
