@@ -8,6 +8,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Separator } from '@/components/ui/separator'
 import { useSearchParams } from 'next/navigation'
 
+export const dynamic = 'force-dynamic'
+
 export default function LoginPage() {
   const searchParams = useSearchParams()
   const redirectTo = searchParams.get('redirectTo') || '/'
