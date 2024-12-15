@@ -38,18 +38,24 @@ function getRouteAccess(pathname: string): RouteAccess {
 }
 
 function getRedirectUrl(request: NextRequest, isAuthenticated: boolean): string | null {
-  const { pathname } = request.nextUrl
+  const { pathname, searchParams } = request.nextUrl
   const { isPublic, requiresAuth, requiresAdmin } = getRouteAccess(pathname)
 
-  // print the route access and the route specs
   console.log('Route specs:', { pathname, isAuthenticated, isPublic, requiresAuth, requiresAdmin })
-
 
   // Handle authentication redirects
   if (!isAuthenticated && requiresAuth) {
-    return ROUTES.DEFAULT_PUBLIC_ROUTE
+    // Add the original path as a 'redirectTo' query parameter
+    const redirectTo = encodeURIComponent(pathname)
+    return `${ROUTES.DEFAULT_AUTH_ROUTE}?redirectTo=${redirectTo}`
   }
 
+  // If user is authenticated and trying to access login page,
+  // check for redirectTo parameter and redirect there if it exists
+  if (isAuthenticated && pathname === ROUTES.DEFAULT_AUTH_ROUTE) {
+    const redirectTo = searchParams.get('redirectTo')
+    return redirectTo ? decodeURIComponent(redirectTo) : ROUTES.DEFAULT_PUBLIC_ROUTE
+  }
 
   // TODO: Add admin check when implementing admin roles
   if (requiresAdmin) {
@@ -72,6 +78,7 @@ export async function middleware(request: NextRequest) {
     // Check if redirect is needed
     const redirectUrl = getRedirectUrl(request, isAuthenticated)
     if (redirectUrl) {
+      console.log('redirect to:', redirectUrl)
       return NextResponse.redirect(new URL(redirectUrl, request.url))
     }
 

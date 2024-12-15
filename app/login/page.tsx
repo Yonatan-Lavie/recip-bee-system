@@ -6,8 +6,14 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { useSearchParams } from 'next/navigation'
 
 export default function LoginPage() {
+  const searchParams = useSearchParams()
+  const redirectTo = searchParams.get('redirectTo') || '/'
+
+  console.log(redirectTo)
+
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-12">
       <Card className="w-full max-w-md">
@@ -19,6 +25,12 @@ export default function LoginPage() {
         </CardHeader>
         <CardContent>
           <form className="space-y-4">
+            {/* Hidden input for redirectTo */}
+            <input 
+              type="hidden" 
+              name="redirectTo" 
+              value={redirectTo} 
+            />
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -63,7 +75,7 @@ export default function LoginPage() {
             variant="outline"
             type="submit"
             className="w-full"
-            onClick={() => signInWithGoogle(window.location.origin)}
+            onClick={() => signInWithGoogle(window.location.origin, redirectTo)}
           >
             <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
               <path
